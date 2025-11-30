@@ -1,0 +1,685 @@
+/* ================================================================ */
+/* ==================== THEME: THREE-BODY PROBLEM ================= */
+/* ================================================================ */
+
+/* Gaya dasar & Latar Belakang */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #02040a; /* Deep Space Black */
+    
+    /* PENAMBAHAN GRADIEN: */
+    background-image: 
+        /* Glow Cyan/Biru di sisi kiri atas */
+        radial-gradient(circle at 10% 20%, rgba(34, 211, 238, 0.08) 0%, transparent 80%),
+        /* Glow Ungu/Magenta di sisi kanan bawah untuk variasi */
+        radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.06) 0%, transparent 80%),
+        /* Glow Hijau halus di tengah bawah */
+        radial-gradient(circle at 50% 100%, rgba(132, 204, 22, 0.05) 0%, transparent 50%);
+        
+    background-attachment: fixed; /* Agar glow tetap diam saat scroll */
+    overflow-x: hidden;
+    color: #e2e8f0;
+}
+
+/* Font khusus untuk Judul agar vibe Sci-Fi lebih terasa */
+.sci-fi-title {
+    font-family: 'Orbitron', sans-serif; /* Fallback ke Inter jika load gagal */
+    letter-spacing: 1px;
+    text-shadow: 0 0 30px rgba(132, 204, 22, 0.3);
+}
+
+/* ================================================================ */
+/* =========== EFEK LATAR BELAKANG VANTA (MODERN) ================= */
+/* ================================================================ */
+#vanta-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0; /* Paling belakang */
+    pointer-events: none; /* Agar tidak mengganggu klik */
+}
+
+/* Hapus shape manual yang lama agar tidak tumpang tindih */
+.background-shapes, .shape1, .shape2, .shape3 {
+    display: none;
+}
+
+/* ================================================================ */
+/* ================= BAR PROGRES & SCROLL REVEAL ================== */
+/* ================================================================ */
+#progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    /* Gradient Acid Green ke Cyan */
+    background: linear-gradient(90deg, #84cc16, #22d3ee, #6366f1);
+    width: 0%;
+    z-index: 9999;
+    transition: width 0.1s linear;
+    box-shadow: 0 0 10px rgba(34, 211, 238, 0.5);
+}
+
+.article-container:not(.sub-article-container) {
+    border-radius: 0.85rem;
+    overflow: hidden;
+}
+
+.article-container {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.article-container.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ================================================================ */
+/* ============= HIGHLIGHT (SOROTAN) WARNA BARU =================== */
+/* ================================================================ */
+@keyframes temporary-highlight {
+    0% { box-shadow: 0 0 0 0 rgba(132, 204, 22, 0.5); }
+    50% { box-shadow: 0 0 25px 8px rgba(132, 204, 22, 0.2); }
+    100% { box-shadow: 0 0 0 0 rgba(132, 204, 22, 0); }
+}
+
+.article-highlight {
+    animation: temporary-highlight 2s ease-out;
+}
+
+/* --- GAYA UI UTAMA (GLASSMORPHISM DARK) --- */
+
+/* Header Artikel Utama */
+.article-header { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    cursor: pointer; 
+    padding: 1rem 1.5rem; 
+    border-radius: 0.85rem; 
+    transition: all 0.3s ease; 
+    color: #ecfccb; /* Very light lime */
+    
+    /* Background lebih gelap dan dingin */
+    background: rgba(8, 14, 40, 0.4); 
+    backdrop-filter: blur(16px); 
+    -webkit-backdrop-filter: blur(16px); 
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5); 
+    
+    position: sticky; 
+    top: 1rem; 
+    z-index: 10; 
+    border: 1px solid rgba(34, 211, 238, 0.1); /* Cyan border tipis */
+    background-clip: padding-box; 
+    -webkit-background-clip: padding-box; 
+}
+
+/* Glow effect saat hover pada header */
+.article-header:hover {
+    border-color: rgba(132, 204, 22, 0.4);
+    box-shadow: 0 8px 32px 0 rgba(132, 204, 22, 0.1);
+}
+
+.article-header h3 { color: #f0f9ff; }
+
+/* Konten Artikel Utama */
+.article-content { 
+    background: rgba(8, 14, 40, 0.4); 
+    backdrop-filter: blur(16px); 
+    -webkit-backdrop-filter: blur(16px); 
+    border: 1px solid rgba(34, 211, 238, 0.05); /* Border sangat tipis */
+    border-top: none; 
+    border-radius: 0 0 0.85rem 0.85rem; 
+    max-height: 0; 
+    overflow: hidden; 
+    transition: max-height 0.7s ease-in-out, padding 0.5s ease-in-out; 
+    padding-left: 1.5rem; 
+    padding-right: 1.5rem; 
+    padding-top: 0; 
+    padding-bottom: 0; 
+}
+
+.article-content-inner p { margin-bottom: 1rem; text-align: justify; text-indent: 2em; color: #cbd5e1; }
+
+.article-content-inner img {
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(34, 211, 238, 0.2);
+}
+.article-content-inner img:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 20px rgba(34, 211, 238, 0.2);
+}
+
+.article-content-inner p:last-child { margin-bottom: 0; }
+
+/* Active State Artikel Utama */
+.article-container.active .article-header { 
+    border-radius: 0.85rem 0.85rem 0 0; 
+    background: rgba(10, 20, 50, 0.6); 
+    border-color: rgba(132, 204, 22, 0.3); /* Lime border saat aktif */
+}
+.article-container.active .article-content { 
+    max-height: 90vh; 
+    overflow-y: auto; 
+    padding-top: 1.5rem; 
+    padding-bottom: 1.5rem; 
+}
+
+/* Icon Rotation */
+.collapse-icon svg { transition: transform 0.3s ease-in-out; stroke: #a3e635; /* Lime stroke */ }
+.article-container.active .collapse-icon svg { transform: rotate(180deg); stroke: #22d3ee; /* Cyan saat terbuka */ }
+
+
+/* ================================================================ */
+/* ================== SUB-ARTIKEL (REVISI FINAL) ================== */
+/* ================================================================ */
+/* Konsep: "Secondary Data Module" - Lebih gelap & terkotak */
+/* 1. UPDATE CLASS UTAMA: Tambahkan 'transition' agar efeknya halus */
+.sub-article-container { 
+    margin-left: 1.5rem; 
+    width: calc(100% - 1.5rem); 
+    margin-top: 1.5rem; 
+    position: relative; 
+    padding: 0 !important; 
+    
+    background: rgba(2, 6, 23, 0.85); 
+    backdrop-filter: blur(20px);      
+    -webkit-backdrop-filter: blur(20px);
+    
+    /* Border awal (agak redup) */
+    border: 1px solid rgba(34, 211, 238, 0.1); 
+    border-left: 2px solid rgba(34, 211, 238, 0.5); 
+    border-radius: 0.5rem;
+    
+    /* Shadow awal */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    
+    overflow: hidden; 
+    display: flex;
+    flex-direction: column;
+
+    /* PENTING: Transisi untuk animasi hover */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 2. TAMBAHKAN RULE HOVER BARU INI */
+.sub-article-container:hover {
+    /* Border berubah jadi Cyan terang */
+    border-color: rgba(34, 211, 238, 0.8);
+    
+    /* Efek Glow Cyber Blue yang menyebar */
+    box-shadow: 0 0 25px rgba(34, 211, 238, 0.25),
+                inset 0 0 10px rgba(34, 211, 238, 0.05);
+                
+    /* Sedikit efek angkat agar terasa taktil */
+    transform: translateY(-2px);
+}
+
+/* Header Sub-Artikel */
+.sub-article-container .article-header { 
+    /* FIX 2: Pastikan margin 0 dan lebar penuh */
+    margin: 0 !important;
+    width: 100%;
+    
+    background: rgba(34, 211, 238, 0.05); 
+    backdrop-filter: none; 
+    box-shadow: none; 
+    
+    /* Hapus border header yang redundan (kecuali bawah) */
+    border: none;
+    border-bottom: 1px solid rgba(34, 211, 238, 0.1);
+    
+    border-radius: 0; /* Sudut kotak agar pas dengan container */
+    padding: 0.75rem 1rem; 
+    
+    /* Reset posisi sticky agar tidak "terbang" di dalam sub-container */
+    position: relative; 
+    top: 0;
+}
+
+.sub-article-container .article-header h3 { 
+    font-size: 1rem; 
+    font-weight: 600; 
+    color: #94a3b8; 
+    letter-spacing: 0.05em;
+    transition: color 0.3s ease;
+    margin: 0; /* Pastikan teks h3 tidak mendorong header */
+}
+
+.sub-article-container .article-header .collapse-icon svg { 
+    width: 18px; 
+    height: 18px; 
+    stroke: #64748b; 
+}
+
+/* Konten Sub-Artikel */
+.sub-article-container .article-content { 
+    background: transparent; 
+    backdrop-filter: none; 
+    
+    /* Tambahkan padding di sini karena padding container sudah dihapus */
+    padding: 0 1rem; 
+    
+    border: none;
+}
+
+/* State Aktif Sub-Artikel */
+.sub-article-container.active {
+    border-color: rgba(34, 211, 238, 0.4);
+    box-shadow: 0 0 15px rgba(34, 211, 238, 0.1);
+}
+
+.sub-article-container.active .article-header h3 { 
+    color: #22d3ee; /* Judul jadi Cyan menyala */
+    text-shadow: 0 0 10px rgba(34, 211, 238, 0.4);
+}
+
+.sub-article-container.active .article-header .collapse-icon svg { 
+    stroke: #22d3ee; 
+    transform: rotate(180deg); 
+}
+
+/* ================================================================ */
+/* ================== CUSTOM SCROLLBAR THEMES ===================== */
+/* ================================================================ */
+
+/* 1. GLOBAL WINDOW SCROLLBAR (Level Terluar - Tema Hijau) */
+::-webkit-scrollbar {
+    width: 10px;
+    background-color: #02040a; /* Match body bg */
+}
+
+::-webkit-scrollbar-thumb {
+    /* Menggunakan warna dasar Hijau Tua */
+    background-color: #84cc16; 
+    border-radius: 5px;
+    
+    /* Memberi jarak dengan border agar terlihat melayang */
+    border: 2px solid #02040a; 
+}
+
+
+/* 2. MAIN ARTICLE SCROLLBAR (Level 1 - Acid Lime) */
+/* Selector spesifik untuk konten artikel utama */
+.article-container:not(.sub-article-container) .article-content::-webkit-scrollbar {
+    width: 8px;
+}
+.article-container:not(.sub-article-container) .article-content::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+}
+.article-container:not(.sub-article-container) .article-content::-webkit-scrollbar-thumb {
+    background-color: #4d7c0f; /* Darker Lime */
+    border-radius: 4px;
+}
+.article-container:not(.sub-article-container) .article-content::-webkit-scrollbar-thumb:hover {
+    background-color: #84cc16; /* Bright Acid Lime saat hover */
+    box-shadow: 0 0 10px rgba(132, 204, 22, 0.5); /* Glow effect */
+}
+
+/* 3. SUB-ARTICLE SCROLLBAR (Level 2 - Cyber Cyan) */
+/* Selector spesifik untuk konten sub-artikel */
+.sub-article-container .article-content::-webkit-scrollbar {
+    width: 6px; /* Lebih tipis */
+}
+.sub-article-container .article-content::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+}
+.sub-article-container .article-content::-webkit-scrollbar-thumb {
+    background-color: #0e7490; /* Darker Cyan */
+    border-radius: 3px;
+}
+.sub-article-container .article-content::-webkit-scrollbar-thumb:hover {
+    background-color: #22d3ee; /* Bright Cyan saat hover */
+    box-shadow: 0 0 8px rgba(34, 211, 238, 0.6); /* Cyan Glow */
+}
+
+
+/* ================================================================ */
+/* =========== INTERAKSI TEKS & BOOKMARK ========================== */
+/* ================================================================ */
+.original-text-segment { 
+    cursor: pointer; 
+    transition: all 0.2s ease-in-out; 
+    padding: 2px 4px; 
+    border-radius: 4px; 
+}
+.original-text-segment:hover { 
+    background-color: rgba(34, 211, 238, 0.15); /* Cyan tint */
+    color: #22d3ee;
+}
+
+/* Selected Text */
+.selected-text { 
+    background-color: rgba(132, 204, 22, 0.2)!important; /* Lime tint background */
+    color: #bef264!important; /* Light Lime text */
+    text-shadow: 0 0 10px rgba(132, 204, 22, 0.5)!important;
+    font-weight: 500; 
+    border-bottom: 1px solid #84cc16;
+}
+
+@keyframes bookmark-blink {
+    0%, 100% { background-color: transparent; color: inherit; }
+    50% { background-color: rgba(34, 211, 238, 0.3); color: #fff; }
+}
+
+.bookmark-highlight { animation: bookmark-blink 0.8s ease-in-out 3; }
+
+/* POPUP TRANSLATION */
+#translation-popup { 
+    display: flex; 
+    align-items: center; 
+    gap: 0.75rem; 
+    position: absolute; 
+    z-index: 20; 
+    transform: translateY(8px); 
+    transition: opacity 0.2s ease-in-out; 
+    pointer-events: none; 
+    opacity: 0; 
+    padding: 0.75rem; 
+    border-radius: 0.5rem; 
+    max-width: 450px; 
+    font-size: 0.9rem; 
+    
+    color: #e2e8f0; 
+    background: rgba(5, 10, 25, 0.9); /* Hampir solid black */
+    backdrop-filter: blur(10px); 
+    -webkit-backdrop-filter: blur(10px); 
+    border: 1px solid rgba(132, 204, 22, 0.3); /* Lime border */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+}
+#translation-popup.visible { opacity: 1; pointer-events: auto; }
+#translation-popup::before { 
+    content: ''; 
+    position: absolute; 
+    bottom: 100%; 
+    left: 20px; 
+    border-width: 8px; 
+    border-style: solid; 
+    border-color: transparent transparent rgba(132, 204, 22, 0.3) transparent; /* Matching border color */
+}
+
+/* TOMBOL ADD BOOKMARK */
+.add-vocab-btn {
+    background-color: transparent;
+    border: 1px solid #22d3ee;
+    color: #22d3ee;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+.add-vocab-btn:hover { background-color: #22d3ee; color: #000; box-shadow: 0 0 10px #22d3ee; }
+.add-vocab-btn.added { background-color: #84cc16; color: #000; border-color: #84cc16; box-shadow: 0 0 10px #84cc16; }
+
+/* --- KONTROL UI & FONT --- */
+.ui-controls { position: fixed; top: 1rem; right: 1.5rem; z-index: 1001; display: flex; gap: 0.5rem; }
+#font-adjuster-toggle, #vocab-toggle-button { 
+    padding: 0.5rem; 
+    border-radius: 0.5rem; 
+    cursor: pointer; 
+    background: rgba(5, 10, 25, 0.6); 
+    backdrop-filter: blur(12px); 
+    border: 1px solid rgba(255, 255, 255, 0.1); 
+    color: #22d3ee; /* Cyan icons */
+    transition: all 0.2s ease-in-out; 
+}
+#font-adjuster-toggle:hover, #vocab-toggle-button:hover { 
+    background: rgba(34, 211, 238, 0.1); 
+    color: #fff; 
+    border-color: #22d3ee;
+}
+
+#font-adjuster-container { 
+    position: fixed; 
+    top: 4.5rem; 
+    right: 1.5rem; 
+    z-index: 1000; 
+    display: flex; 
+    align-items: center; 
+    gap: 0.75rem; 
+    padding: 0.75rem 1rem; 
+    border-radius: 0.75rem; 
+    background: rgba(5, 10, 25, 0.8); 
+    backdrop-filter: blur(12px); 
+    border: 1px solid rgba(34, 211, 238, 0.2); 
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5); 
+    opacity: 0; 
+    transform: translateY(-10px); 
+    pointer-events: none; 
+    transition: opacity 0.3s ease, transform 0.3s ease; 
+}
+#font-adjuster-container.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+.font-adjuster-icon { color: #22d3ee; font-weight: 600; }
+
+/* Slider Styling */
+input[type="range"] { -webkit-appearance: none; appearance: none; width: 120px; height: 4px; background: rgba(255, 255, 255, 0.1); border-radius: 5px; outline: none; cursor: pointer; }
+input[type="range"]::-webkit-slider-thumb { 
+    -webkit-appearance: none; 
+    appearance: none; 
+    width: 16px; 
+    height: 16px; 
+    background: #84cc16; /* Lime thumb */
+    border-radius: 50%; 
+    border: 2px solid #000; 
+    box-shadow: 0 0 10px #84cc16;
+    transition: transform 0.2s ease; 
+}
+input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+
+/* FONT SIZES */
+#articles-container.font-size-1 .text-lg { font-size: 0.9rem; line-height: 1.5rem; }
+#articles-container.font-size-2 .text-lg { font-size: 1.0rem; line-height: 1.65rem; }
+#articles-container.font-size-3 .text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+#articles-container.font-size-4 .text-lg { font-size: 1.25rem; line-height: 1.9rem; }
+#articles-container.font-size-5 .text-lg { font-size: 1.4rem; line-height: 2.1rem; }
+
+
+/* ================================================================ */
+/* ================== PANEL BOOKMARK (SIDEBAR) ==================== */
+/* ================================================================ */
+#vocab-sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 380px;
+    max-width: 90vw;
+    height: 100%;
+    z-index: 1002;
+    background: rgba(2, 4, 10, 0.85); /* Darker sidebar */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-left: 1px solid rgba(132, 204, 22, 0.2); /* Lime border left */
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    display: flex;
+    flex-direction: column;
+}
+
+#vocab-sidebar.visible { transform: translateX(0); }
+
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    flex-shrink: 0;
+}
+
+/* STYLE TOMBOL CLEAR (REVISI FINAL: CYAN/LIME THEME) */
+#clear-vocab-button {
+    /* Background transparan dengan tint Cyan */
+    background-color: rgba(34, 211, 238, 0.1); 
+    
+    /* Border Cyan tipis */
+    border: 1px solid rgba(34, 211, 238, 0.4);
+    
+    /* Warna teks Cyan menyala */
+    color: #22d3ee; 
+    
+    padding: 0.25rem 0.75rem;
+    
+    /* Radius kotak teknis */
+    border-radius: 0.25rem; 
+    
+    font-size: 0.7rem;
+    font-weight: 600;
+    
+    /* Gaya tipografi "Tech Label" */
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    
+    cursor: pointer;
+    transition: all 0.3s ease;
+    
+    /* Glow halus warna Cyan */
+    box-shadow: 0 0 5px rgba(34, 211, 238, 0.1);
+}
+
+#clear-vocab-button:hover {
+    /* Background solid Cyan saat hover */
+    background-color: #22d3ee; 
+    
+    /* Teks berubah jadi hitam (Dark Theme Background) agar kontras tinggi */
+    color: #02040a;
+    
+    border-color: #22d3ee;
+    
+    /* Efek Neon Glow Cyan yang kuat */
+    box-shadow: 0 0 15px rgba(34, 211, 238, 0.6), 
+                0 0 5px rgba(255, 255, 255, 0.4);
+                
+    transform: translateY(-1px);
+}
+
+#clear-vocab-button:active {
+    transform: translateY(1px);
+    /* Saat diklik sedikit ada nuansa Lime (Hijau) sebagai feedback */
+    background-color: #84cc16; 
+    border-color: #84cc16;
+    box-shadow: 0 0 10px rgba(132, 204, 22, 0.8);
+}
+
+#vocab-list {
+    list-style: none;
+    padding: 0.5rem;
+    margin: 0;
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+.vocab-item {
+    padding: 1rem;
+    margin: 0.5rem;
+    border-radius: 0.5rem;
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+.vocab-item:hover {
+    border-color: rgba(132, 204, 22, 0.3); /* Lime border on hover */
+    background-color: rgba(132, 204, 22, 0.05);
+}
+
+.vocab-item-original { font-weight: 500; color: #f0f9ff; margin-bottom: 0.25rem; }
+.vocab-item-translation { font-size: 0.9rem; color: #a3e635; /* Lime text */ margin-bottom: 0.75rem; }
+.vocab-item-source { font-size: 0.75rem; color: #64748b; border-top: 1px dashed rgba(255, 255, 255, 0.1); padding-top: 0.5rem; }
+
+.delete-vocab-btn {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 20px;
+    height: 20px;
+    border: none;
+    background: none;
+    color: #64748b;
+    font-size: 1.2rem;
+    cursor: pointer;
+    opacity: 0.5;
+}
+.vocab-item:hover .delete-vocab-btn { opacity: 1; }
+.delete-vocab-btn:hover { color: #f87171; }
+
+/* ================================================================ */
+/* ================= PREVIEW GAMBAR (UNCHANGED LOGIC) ============= */
+/* ================================================================ */
+#image-preview-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85); /* Lebih gelap */
+    backdrop-filter: blur(15px);
+    z-index: 2000;
+    display: none; /* Logic maintained */
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease-in-out;
+    overflow: hidden;
+}
+
+#image-preview-overlay.visible { opacity: 1; pointer-events: auto; }
+
+#preview-image {
+    max-width: 90vw;
+    max-height: 85vh;
+    object-fit: contain;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 50px rgba(34, 211, 238, 0.1); /* Cyan glow */
+    transition: transform 0.2s ease-out;
+}
+
+.preview-controls {
+    position: absolute;
+    top: 50%; 
+    transform: translateY(-50%); 
+    right: 1.5rem;
+    display: flex;
+    flex-direction: column; 
+    gap: 0.75rem; 
+    background-color: rgba(5, 10, 25, 0.8);
+    padding: 0.75rem 0.5rem; 
+    border-radius: 0.75rem; 
+    border: 1px solid rgba(255,255,255,0.1);
+    z-index: 10; 
+}
+
+.preview-control-btn {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.05);
+    color: #22d3ee;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.preview-control-btn:hover {
+    background-color: #22d3ee;
+    color: #000;
+}
