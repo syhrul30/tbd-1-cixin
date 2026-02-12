@@ -683,3 +683,45 @@ input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
     background-color: #22d3ee;
     color: #000;
 }
+
+/* ================================================================ */
+/* ========== [v5.6] STYLE BARU UNTUK CROSS-BOOK READER =========== */
+/* ================================================================ */
+ 
+.vocab-item.last-read {
+   border: 1px solid rgba(132, 204, 22, 0.5); /* Lime border */
+   background: linear-gradient(90deg, rgba(132, 204, 22, 0.1) 0%, rgba(34, 211, 238, 0.05) 100%);
+   position: relative;
+   margin-bottom: 1rem;
+}
+ 
+.last-read-badge {
+   font-size: 0.65rem;
+   font-weight: 800;
+   color: #02040a;
+   background-color: #84cc16; /* Lime solid */
+   display: inline-block;
+   padding: 2px 6px;
+   border-radius: 4px;
+   margin-bottom: 0.5rem;
+   letter-spacing: 0.05em;
+}
+ 
+.vocab-divider {
+   font-size: 0.7rem;
+   color: #64748b;
+   text-align: center;
+   margin: 1rem 0 0.5rem 0;
+   letter-spacing: 0.1em;
+   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+   line-height: 0.1em;
+}
+ 
+.vocab-item-book {
+   font-size: 0.7rem;
+   color: #22d3ee; /* Cyan text */
+   font-weight: 600;
+   text-transform: uppercase;
+   margin-bottom: 0.25rem;
+   opacity: 0.8;
+ }
